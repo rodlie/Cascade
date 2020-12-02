@@ -188,10 +188,13 @@ FORMS += \
     src/viewerstatusbar.ui
 
 linux-g++ {
-    LIBS += -L /usr/lib -lOpenImageIO
-    LIBS += -L /usr/lib -lOpenColorIO
+    # use pkg-config for third-party dependencies
+    QT_CONFIG -= no-pkg-config
+    CONFIG += link_pkgconfig
+    PKGCONFIG += OpenImageIO OpenColorIO tbb gtest
+
+    # gmic does not provide a .pc file
     LIBS += -L /usr/lib -lgmic
-    LIBS += -L /usr/lib -ltbb
 
     CONFIG(debug, debug|release): DESTDIR = $$OUT_PWD
     CONFIG(release, debug|release): DESTDIR = $$OUT_PWD
